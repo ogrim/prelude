@@ -32,10 +32,10 @@
 ;;; Code:
 
 (require 'prelude-programming)
-(prelude-ensure-module-deps '(erlang))
+(prelude-require-packages '(erlang))
 
 (defcustom wrangler-path nil
-  "*The location of wrangler elisp directory"
+  "The location of wrangler elisp directory."
   :group 'prelude-erlang
   :type 'string
   :safe 'stringp)

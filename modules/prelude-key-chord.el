@@ -1,4 +1,4 @@
-;;; prelude-xml.el --- Emacs Prelude: XML editing configuration.
+;;; prelude-key-chord.el --- Key chord setup
 ;;
 ;; Copyright © 2011-2013 Bozhidar Batsov
 ;;
@@ -11,7 +11,7 @@
 
 ;;; Commentary:
 
-;; Some basic nxml-mode configuration.
+;; Configure key-chord key bindings.
 
 ;;; License:
 
@@ -31,20 +31,20 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
+(prelude-require-package 'key-chord)
 
-(require 'nxml-mode)
+(require 'key-chord)
 
-(push '("<\\?xml" . nxml-mode) magic-mode-alist)
+(key-chord-define-global "jj" 'ace-jump-word-mode)
+(key-chord-define-global "jl" 'ace-jump-line-mode)
+(key-chord-define-global "jk" 'ace-jump-char-mode)
+(key-chord-define-global "JJ" 'prelude-switch-to-previous-buffer)
+(key-chord-define-global "uu" 'undo-tree-visualize)
+(key-chord-define-global "xx" 'execute-extended-command)
+(key-chord-define-global "yy" 'browse-kill-ring)
 
-;; pom files should be treated as xml files
-(add-to-list 'auto-mode-alist '("\\.pom$" . nxml-mode))
+(key-chord-mode +1)
 
-(setq nxml-child-indent 4)
-(setq nxml-attribute-indent 4)
-(setq nxml-auto-insert-xml-declaration-flag nil)
-(setq nxml-bind-meta-tab-to-complete-flag t)
-(setq nxml-slash-auto-complete-flag t)
+(provide 'prelude-key-chord)
 
-(provide 'prelude-xml)
-
-;;; prelude-xml.el ends here
+;;; prelude-key-chord.el ends here

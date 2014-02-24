@@ -1,4 +1,4 @@
-;;; prelude-xml.el --- Emacs Prelude: XML editing configuration.
+;;; prelude-helm.el --- Helm setup
 ;;
 ;; Copyright © 2011-2013 Bozhidar Batsov
 ;;
@@ -11,7 +11,7 @@
 
 ;;; Commentary:
 
-;; Some basic nxml-mode configuration.
+;; Some config for Helm.
 
 ;;; License:
 
@@ -32,19 +32,27 @@
 
 ;;; Code:
 
-(require 'nxml-mode)
+(prelude-require-packages '(helm helm-projectile))
 
-(push '("<\\?xml" . nxml-mode) magic-mode-alist)
+(require 'helm-misc)
+(require 'helm-projectile)
 
-;; pom files should be treated as xml files
-(add-to-list 'auto-mode-alist '("\\.pom$" . nxml-mode))
+(defun helm-prelude ()
+  "Preconfigured `helm'."
+  (interactive)
+  (condition-case nil
+      (if (projectile-project-root)
+          (helm-projectile)
+        ;; otherwise fallback to `helm-mini'
+        (helm-mini))
+    ;; fall back to helm mini if an error occurs (usually in `projectile-project-root')
+    (error (helm-mini))))
 
-(setq nxml-child-indent 4)
-(setq nxml-attribute-indent 4)
-(setq nxml-auto-insert-xml-declaration-flag nil)
-(setq nxml-bind-meta-tab-to-complete-flag t)
-(setq nxml-slash-auto-complete-flag t)
+(eval-after-load 'prelude-mode
+  '(define-key prelude-mode-map (kbd "C-c h") 'helm-prelude))
 
-(provide 'prelude-xml)
+(push "Press <C-c h> to navigate a project in Helm." prelude-tips)
 
-;;; prelude-xml.el ends here
+(provide 'prelude-helm)
+
+;;; prelude-helm.el ends here
