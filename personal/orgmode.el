@@ -1,6 +1,54 @@
 (prefer-coding-system 'utf-8)
 (set-charset-priority 'unicode)
 (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+minor-mode-list
+(defvar *timetable* "
+| timestamp | timer dag | timer aktivitet | aktivitet |
+|-----------+-----------+-----------------+-----------|
+|           |           |                 |           |
+|           |           |                 |           |
+|           |           |                 |           |
+|           |           |                 |           |
+|           |           |                 |           |
+|           |           |                 |           |
+| sum       |         0 |               0 |           |
+#+TBLFM: @8$2=vsum(@2$2..@7$2)::@8$3=vsum(@2$3..@7$3)")
+
+;; Parse an HH::MM date into a list containing a pair of numbers, (HH MM)
+(defun my-parse-hhmm (hhmm)
+ (let ((date-re "\\([0-9]+\\):\\([0-9]+\\)h?")
+        hours
+        minutes)
+   (unless (string-match date-re hhmm)
+     (error "Argument is not a valid date: '%s'" hhmm))
+   (setq hours (string-to-number (match-string 1 hhmm))
+          minutes (string-to-number (match-string 2 hhmm)))
+   (list hours minutes)))
+
+;; Convert a HH:MM date to a (possibly fractional) number of hours
+(defun my-hhmm-to-hours (hhmm)
+ (let* ((date (my-parse-hhmm hhmm))
+        (hours (first date))
+        (minutes (second date)))
+   (+ (float hours) (/ (float minutes) 60.0))))
+
+(defun timerange-insert-hours (&optional lunch)
+  (interactive)
+  (org-evaluate-time-range t)
+  (kill-word 2)
+  (insert (number-to-string (my-hhmm-to-hours (substring-no-properties (car kill-ring)))))
+  (org-cycle))
+
+(defun timerange-insert-hours-minus-lunch ()
+  (interactive)
+  (org-evaluate-time-range t)
+  (kill-word 2)
+  (insert (number-to-string (- (my-hhmm-to-hours (substring-no-properties (car kill-ring))) 0.5)))
+  (org-cycle))
+
+(defun insert-timetable ()
+  (interactive)
+  (insert *timetable*))
 
 (defun week-number (date)
   (org-days-to-iso-week
@@ -25,7 +73,7 @@ Inherited tags will be considered."
         nil
       subtree-end)))
 
-(setq org-agenda-files (quote ("C:\\org\\work.org")))
+;(setq org-agenda-files (quote ("C:\\org\\work.org")))
 
 (setq org-agenda-custom-commands
       '(("w" agenda "" ((org-agenda-ndays 1)))
@@ -47,7 +95,7 @@ Inherited tags will be considered."
          "bibtex %b"
          "pdflatex -interaction nonstopmode %b"
          "pdflatex -interaction nonstopmode %b"
-	 "rm %b.bbl %b.blg"))
+         "rm %b.bbl %b.blg"))
 
 
 
@@ -56,8 +104,8 @@ Inherited tags will be considered."
 ;; (add-to-list 'org-export-latex-packages-alist '("" "color"))
 
 (add-hook 'org-mode-hook
-	  (lambda ()
-	    (define-key org-mode-map (kbd "C-c c") 'reftex-citep)
+          (lambda ()
+            (define-key org-mode-map (kbd "C-c c") 'reftex-citep)
             ;(define-key org-mode-map (kbd "M-e") 'my-next-sentence)
             ;(define-key org-mode-map (kbd "M-a") 'my-last-sentence)
             (define-key org-mode-map (kbd "C-c w") 'week-number-current)
@@ -65,8 +113,9 @@ Inherited tags will be considered."
             (define-key org-mode-map (kbd "C-c h") 'timerange-insert-hours)
             (define-key org-mode-map (kbd "C-c j") 'timerange-insert-hours-minus-lunch)
             (define-key org-mode-map (kbd "C-c t") 'insert-timetable)
+            (define-key org-mode-map (kbd "C-c SPC") 'ace-jump-mode)
             (local-unset-key [(meta tab)])
-	    (reftex-mode)
+            (reftex-mode)
             (add-to-list 'org-export-latex-packages-alist '("" "amsmath" t))
             (setcar (rassoc '("wasysym" t) org-export-latex-default-packages-alist) "integrals")
             (make-local-variable 'sentence-highlight-mode)
@@ -92,3 +141,6 @@ Inherited tags will be considered."
 
 ;(add-to-list 'org-export-latex-packages-alist '("" "amsmath" t))
 ;(setcar (rassoc '("wasysym" t) org-export-latex-default-packages-alist) "integrals")
+
+(find-file "C:\\org\\planner.org")
+

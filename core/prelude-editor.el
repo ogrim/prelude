@@ -237,10 +237,11 @@ The body of the advice is in BODY."
   (when prelude-whitespace
     ;; keep the whitespace decent all the time (in this buffer)
     (add-hook 'before-save-hook 'prelude-cleanup-maybe nil t)
-    (whitespace-mode +1)))
+    (whitespace-mode +1)
+    ))
 
-(add-hook 'text-mode-hook 'prelude-enable-flyspell)
-(add-hook 'text-mode-hook 'prelude-enable-whitespace)
+;(add-hook 'text-mode-hook 'prelude-enable-flyspell)
+;(add-hook 'text-mode-hook 'prelude-enable-whitespace)
 
 ;; enable narrowing commands
 (put 'narrow-to-region 'disabled nil)
@@ -353,9 +354,9 @@ indent yanked text (with prefix arg don't indent)."
 (add-to-list 'auto-mode-alist '("\\.zsh\\'" . shell-script-mode))
 
 ;; whitespace-mode config
-(require 'whitespace)
-(setq whitespace-line-column 80) ;; limit line length
-(setq whitespace-style '(face tabs empty trailing lines-tail))
+;; (require 'whitespace)
+;; (setq whitespace-line-column 80) ;; limit line length
+;; (setq whitespace-style '(face tabs empty trailing lines-tail))
 
 ;; saner regex syntax
 (require 're-builder)
@@ -371,8 +372,8 @@ indent yanked text (with prefix arg don't indent)."
 (prelude-global-mode t)
 
 ;; sensible undo
-(global-undo-tree-mode)
-(diminish 'undo-tree-mode)
+;; (global-undo-tree-mode)
+;; (diminish 'undo-tree-mode)
 
 ;; enable winner-mode to manage window configurations
 (winner-mode +1)

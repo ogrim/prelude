@@ -77,3 +77,34 @@
 (set-terminal-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
+(set-clipboard-coding-system 'utf-16le-dos)
+
+(defun remove-dos-eol ()
+  "Do not show ^M in files containing mixed UNIX and DOS line endings."
+  (interactive)
+  (setq buffer-display-table (make-display-table))
+  (aset buffer-display-table ?\^M []))
+
+(defun reload-and-remove-dos ()
+  (interactive)
+  (revert-buffer t t)
+  (remove-dos-eol))
+
+(global-set-key (kbd "<f12>") (lambda ()
+                                (interactive)
+                                (revert-buffer t t)))
+
+(set-default 'indent-tabs-mode nil)
+(auto-compression-mode t)
+(show-paren-mode 1)
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+(random t) ;; Seed the random-number generator
+
+;(setq diff-switches "-u")
+
+(mouse-avoidance-mode 'cat-and-mouse)
+
+(display-time)
+

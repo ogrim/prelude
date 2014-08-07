@@ -26,3 +26,6 @@
 (global-set-key (kbd "C-x O") 'previous-multiframe-window)
 
 (global-set-key (kbd "M-T") (lambda () (interactive) (transpose-words -1)))
+
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+(define-key global-map (kbd "C-<backspace>") 'backward-kill-word)

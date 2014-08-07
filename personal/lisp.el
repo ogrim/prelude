@@ -1,13 +1,13 @@
-(defun turn-on-paredit ()
-  (paredit-mode t))
+;; (defun turn-on-paredit ()
+;;   (paredit-mode t))
 
-(dolist (x '(scheme emacs-lisp lisp clojure))
-  (add-hook
-   (intern (concat (symbol-name x) "-mode-hook")) 'turn-on-paredit))
+;; (dolist (x '(scheme emacs-lisp lisp clojure))
+;;   (add-hook
+;;    (intern (concat (symbol-name x) "-mode-hook")) 'turn-on-paredit))
 
-(dolist (x '(scheme emacs-lisp lisp clojure))
-  (add-hook
-   (intern (concat (symbol-name x) "-mode-hook")) 'turn-on-linum))
+;; (dolist (x '(scheme emacs-lisp lisp clojure))
+;;   (add-hook
+;;    (intern (concat (symbol-name x) "-mode-hook")) 'turn-on-linum))
 
 (require 'clojure-mode)
 
