@@ -7,3 +7,4 @@
 
 (set-default-font "Fira Mono-11")
 
+(add-hook 'text-mode-hook 'remove-dos-eol)

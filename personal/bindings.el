@@ -1,8 +1,8 @@
 ;; Place personal bindings here
 
-(global-set-key (kbd "<f6>") 'cua-mode)
+;(global-set-key (kbd "<f6>") 'cua-mode)
 
-(global-set-key (kbd "<f5>") 'longlines-mode)
+;(global-set-key (kbd "<f5>") 'longlines-mode)
 
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)

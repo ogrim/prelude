@@ -121,7 +121,9 @@ Inherited tags will be considered."
         nil
       subtree-end)))
 
-(setq org-agenda-files (quote ("C:\\org\\planner.org")))
+;(setq org-agenda-files (quote ("C:\\work\\work.org")))
+(setq org-agenda-files (list "C:\\org\\planner.org" "C:\\work\\work.org"))
+
 
 (setq org-agenda-custom-commands
       '(("w" agenda "" ((org-agenda-ndays 1)))
@@ -191,3 +193,4 @@ Inherited tags will be considered."
 ;(setcar (rassoc '("wasysym" t) org-export-latex-default-packages-alist) "integrals")
 
 (find-file "C:\\org\\planner.org")
+(find-file "C:\\work\\work.org")
